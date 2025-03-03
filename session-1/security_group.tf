@@ -1,0 +1,46 @@
+resource "aws_security_group" "jenkinsSG" {
+  name        = "allow_jenkins_server"
+  description = "Allow ssh and jenkinsport inbound traffic and all outbound traffic"
+  
+
+  tags = {
+    Name = "JenkinsSG"
+    Env = "Jenkins"
+    Hometask = "session1"
+  }
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_ip4_web" {
+  security_group_id = aws_security_group.jenkinsSG.id
+  
+  from_port         = 8080
+  ip_protocol       = "tcp"
+  to_port           = 8080
+  cidr_ipv4         = "0.0.0.0/0"
+  tags = {
+    Name = "JenkinsPort"
+  }
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_ip4_ssh" {
+  security_group_id = aws_security_group.jenkinsSG.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 22
+  ip_protocol       = "tcp"
+  to_port           = 22
+
+  tags = {
+    Name = "ssh allowed"
+  }
+}
+
+
+resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
+  security_group_id = aws_security_group.jenkinsSG.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1" # semantically equivalent to all ports
+
+  tags = {
+    Name = "all outbound open"
+  }
+}
