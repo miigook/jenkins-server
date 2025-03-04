@@ -1,8 +1,11 @@
 resource "aws_instance" "jenkins_server" {
   ami                     = "ami-04b4f1a9cf54c11d0"
   instance_type           = "t2.medium"
+  subnet_id = data.aws_subnet.public_subnet.id
   vpc_security_group_ids = [ aws_security_group.jenkinsSG.id ]
+  associate_public_ip_address = true
   key_name = "amin@macbook"
+  iam_instance_profile = "EC2roleForJenkins"
   user_data = <<-EOF
             #!/bin/bash
             #Update
@@ -24,6 +27,11 @@ resource "aws_instance" "jenkins_server" {
             #Start and Enable
             sudo systemctl start jenkins
             sudo systemctl enable jenkins
+
+            #Change hostname to jenkins
+            hostnamectl set-hostname jenkins
+            sudo su jenkins
+            sudo cd 
 
             EOF
   
