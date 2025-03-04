@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('stage1') {
+            steps {
+                echo 'Running stage1'
+                sh 'echo "Hello" > file.txt'
+            }
+        }
+        stage('stage2') {
+            steps {
+                echo 'Running stage2'
+                sh 'ls'
+            }
+        }
+        stage('stage3') {
+            steps {
+                echo 'Running stage2'
+                sh 'whoami'
+            }
+        }
+        stage('stage4') {
+            steps {
+                sh 'pwd'
+            }
+        }
+    }
+}
