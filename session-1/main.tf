@@ -1,7 +1,7 @@
 resource "aws_instance" "jenkins_server" {
   ami                     = "ami-04b4f1a9cf54c11d0"
   instance_type           = "t2.medium"
-  subnet_id = data.aws_subnet.public_subnet.id
+  # subnet_id = data.aws_subnet.public_subnet.id
   vpc_security_group_ids = [ aws_security_group.jenkinsSG.id ]
   associate_public_ip_address = true
   key_name = "amin@macbook"
@@ -32,7 +32,7 @@ resource "aws_instance" "jenkins_server" {
             hostnamectl set-hostname jenkins
             sudo su jenkins
             sudo cd 
-
+            
             EOF
   
 tags = {

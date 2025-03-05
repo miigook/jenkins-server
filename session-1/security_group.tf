@@ -1,7 +1,7 @@
 resource "aws_security_group" "jenkinsSG" {
   name        = "allow_jenkins_server"
   description = "Allow ssh and jenkinsport inbound traffic and all outbound traffic"
-  vpc_id = data.aws_vpc.jenkinsVPC.id
+  # vpc_id = data.aws_vpc.jenkinsVPC.id
 
   tags = {
     Name = "JenkinsSG"
@@ -10,9 +10,8 @@ resource "aws_security_group" "jenkinsSG" {
   }
 }
 
-resource "aws_vpc_security_group_ingress_rule" "allow_ip4_web" {
+resource "aws_vpc_security_group_ingress_rule" "allow_jenkins_port" {
   security_group_id = aws_security_group.jenkinsSG.id
-  
   from_port         = 8080
   ip_protocol       = "tcp"
   to_port           = 8080
@@ -21,7 +20,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ip4_web" {
     Name = "JenkinsPort"
   }
 }
-resource "aws_vpc_security_group_ingress_rule" "allow_web" {
+resource "aws_vpc_security_group_ingress_rule" "allow_http" {
   security_group_id = aws_security_group.jenkinsSG.id
   
   from_port         = 80
@@ -29,10 +28,20 @@ resource "aws_vpc_security_group_ingress_rule" "allow_web" {
   to_port           = 80
   cidr_ipv4         = "0.0.0.0/0"
   tags = {
-    Name = "WEB"
+    Name = "WEB-HTTP"
   }
 }
-
+resource "aws_vpc_security_group_ingress_rule" "allow_https" {
+  security_group_id = aws_security_group.jenkinsSG.id
+  
+  from_port         = 443
+  ip_protocol       = "tcp"
+  to_port           = 443
+  cidr_ipv4         = "0.0.0.0/0"
+  tags = {
+    Name = "SSL-HTTPS"
+  }
+}
 resource "aws_vpc_security_group_ingress_rule" "allow_ip4_ssh" {
   security_group_id = aws_security_group.jenkinsSG.id
   cidr_ipv4         = "0.0.0.0/0"

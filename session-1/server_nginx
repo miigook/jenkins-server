@@ -1,3 +1,5 @@
+sudo nano /etc/nginx/sites-available/jenkins
+
 server {
     listen 80;
     server_name jenkins.tesraa.com jenkins.tesraa.com;
