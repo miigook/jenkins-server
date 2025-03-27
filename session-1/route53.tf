@@ -1,6 +1,6 @@
 resource "aws_route53_record" "jenkins" {
   zone_id = data.aws_route53_zone.tesraa.zone_id
-  name    = "jenkins.tesraa.com"
+  name    = "jenkins.<yourdomain>.com"
   type    = "A"
   ttl     = 300
   records = [aws_instance.jenkins_server.public_ip]
@@ -8,13 +8,13 @@ resource "aws_route53_record" "jenkins" {
 
 resource "aws_route53_record" "www_jenkins" {
   zone_id = data.aws_route53_zone.tesraa.zone_id
-  name    = "www.jenkins.tesraa.com"
+  name    = "www.jenkins.<yourdomain>.com"
   type    = "A"
   ttl     = 300
   records = [aws_instance.jenkins_server.public_ip]
 }
 
 data "aws_route53_zone" "tesraa" {
-  name         = "tesraa.com"
+  name         = "<yourdomain>.com"
 
 }

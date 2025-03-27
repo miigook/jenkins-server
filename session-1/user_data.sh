@@ -26,7 +26,7 @@ sudo apt-get update && sudo apt-get install nginx -y
 sudo tee /etc/nginx/sites-available/jenkins <<-EOF
 server {
     listen 80;
-    server_name jenkins.tesraa.com www.jenkins.tesraa.com;
+    server_name jenkins.<yourdomain>.com www.jenkins.<yourdomain>.com;
 
     location / {
         proxy_pass http://localhost:8080;
@@ -53,7 +53,7 @@ certbot --nginx \
     --agree-tos \
     --email miigook@github.com \
     --redirect \
-    -d jenkins.tesraa.com \
-    -d www.jenkins.tesraa.com
+    -d jenkins.<yourdomain>.com \
+    -d www.jenkins.<yourdomain>.com
 
 sudo systemctl reload nginx
